@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct element {
+    int val;
+    struct element* suivant;
+} element;
+
+element* creerListe() {
+    return NULL;
+}
+
+element* chargerListe(int Tab[], int t, element* liste) {
+    for (int i = 0; i < t; i++) {
+        element* nouveau = (element*)malloc(sizeof(element));
+        nouveau->val = Tab[i];
+        nouveau->suivant = liste;
+        liste = nouveau;
+    }
+    return liste;
+}
+
+void afficherListe(element* liste) {
+    if (liste == NULL) {
+        printf("La liste est vide.\n");
+        
+    }
+    element* courant = liste;
+    while (courant != NULL) {
+        printf("%d -> ", courant->val);
+        courant = courant->suivant;
+    }
+    printf("NULL\n");
+}
+
+element* supprimerEnFin(element* liste) {
+    if (liste == NULL) return NULL;
+    if (liste->suivant == NULL) {
+        free(liste);
+        return NULL;
+    }
+    element* courant = liste;
+    while (courant->suivant != NULL) {
+        courant = courant->suivant;
+    }
+    free(courant->suivant);
+    courant->suivant = NULL;
+    return liste;
+}
+
+element* ajouterEnDebut(element* liste, int valeur) {
+    element* nouveau = (element*)malloc(sizeof(element));
+    nouveau->val = valeur;
+    nouveau->suivant = liste;
+    return nouveau;
+}
+
+void viderListe(element* liste) {
+    element* courant;
+    while (liste != NULL) {
+        courant = liste;
+        liste = liste->suivant;
+        free(courant);
+    }
+    printf("La liste est vide.\n");
+}
+
+int main() {
+    int Tab[10] = {1, 3, 5, 7, 8, 10, 9, 11, 13, 20};
+    element* liste = creerListe();
+
+    liste = chargerListe(Tab, 10, liste);
+    afficherListe(liste);
+
+    liste = supprimerEnFin(liste);
+    afficherListe(liste);
+
+    liste = ajouterEnDebut(liste, 40);
+    afficherListe(liste);
+
+    viderListe(liste);
+
+    return 0;
+}
+
+    
